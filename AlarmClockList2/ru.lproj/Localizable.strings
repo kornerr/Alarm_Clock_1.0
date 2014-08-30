@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  AlarmClockList
+
+  Created by Admin on 28.08.14.
+  Copyright (c) 2014 infinity. All rights reserved.
+*/
+
+"TitleAlarmList" = "Список будильников";
+"TitleCreateAlarm" = "Создание ";
+"RightItemBar" = "Сохранить";
+"LabelDescription" = "Описание будильника";
+"DefaultTitle" = "Описание";
