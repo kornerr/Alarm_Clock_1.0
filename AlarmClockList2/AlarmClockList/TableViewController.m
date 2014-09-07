@@ -11,6 +11,7 @@
 
 @interface TableViewController ()
 @property (strong) NSMutableArray * alarm;
+// REVIEW Почему нет nonatomic?
 @end
 
 @implementation TableViewController
@@ -55,6 +56,8 @@
     [item autorelease];
     self.navigationItem.rightBarButtonItem = item;
     self.navigationItem.title = NSLocalizedString(@"TitleAlarmList", nil);
+    // REVIEW Где ещё можно поместить эти 4 строки, чтобы инициализация
+    // REVIEW тоже была один раз, но раньше, чем viewDidLoad?
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,17 +109,25 @@
     if (!cell) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlarmListCell"owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        // REVIEW Где это можно сделать ровно один раз? Зачем при каждом отображении
+        // REVIEW проверять на существование?
     }
     if(self.alarm.count > 0)
+    // REVIEW Зачем эта проверка?
     {
         NSManagedObject * a = [self.alarm objectAtIndex: indexPath.row];
         cell.abaut.text = [a valueForKey:@"about"];
         NSDate * date = [a valueForKey:@"time"];
         NSDateFormatter * dateForm = [[NSDateFormatter alloc] init];
+        // REVIEW Почему нет autorelease/release?
         [dateForm setDateFormat:@"HH:mm"];
         cell.time.text = [NSString stringWithFormat:@"%@", [dateForm stringFromDate:date]];
         cell.action.on = (BOOL)[a valueForKey:@"activate"];
         cell.action.tag = indexPath.row;
+        // REVIEW Как можно скрыть детали реализации (присовение текста
+        // REVIEW элементу ячейки и т.д.) и инкапсулировать эти вызовы так, чтобы
+        // REVIEW в будущем не пришлось менять, если, допустим, мы будем
+        // REVIEW присваивать не свойству text, а какому-то другому?
     }
     return cell;
 }

@@ -15,6 +15,7 @@
 @implementation CreateAlarmViewController
 
 @synthesize idAlarm;
+// REVIEW Что это? Зачем оно тут?
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -98,9 +99,12 @@
 -(IBAction)keybordHide:(id)sender
 {
     [sender resignFirstResponder];
+    // REVIEW Как иначе можно скрыть клавиатуру?
 }
 
 - (void)dealloc {
+    // REVIEW Почему в одних местах { с новой строки,
+    // REVIEW а в других нет? Откуда разночтение?
     [_pickerTime release];
     [_about release];
     [_labelDescription release];

@@ -30,11 +30,19 @@
     {
         context = [delegate managedObjectContext];
     }
+    // REVIEW Неявное получение NSManagedObjectContext у UIApplication.
+    // REVIEW (пользователь AlarmListCell нигде в своём коде не 
+    // REVIEW указывает, что нужен экземпляр UIApplication и тем
+    // REVIEW более NSManagedObjectContext).
+    // REVIEW Как можно изменить AlarmListCell, чтобы использование
+    // REVIEW NSManagedObjectContext было явным?
+
     
     return context;
 }
 
 -(void) startAlarm:(NSDate *)fireDate : (NSInteger) idn
+//REVIEW Почему нет имени перед idn? У fireDate - это startAlarm, а тут пусто.
 {
     UILocalNotification* notification = [[UILocalNotification alloc] init];
     [notification autorelease];
@@ -46,6 +54,10 @@
     notification.userInfo = [NSDictionary dictionaryWithObject: [NSString stringWithFormat:@"%d", idn] forKey:@"id"];
     NSLog(@"Test %@", notification.userInfo);
     [[UIApplication sharedApplication] scheduleLocalNotification: notification] ;
+    // REVIEW Неявное использование UIApplication (пользователь AlarmListCell
+    // REVIEW нигде в своём коде не указывает, что нужен экземпляр UIApplication).
+    // REVIEW Как можно изменить AlarmListCell, чтобы использование
+    // REVIEW UIApplication было явным?
 }
 
 -(IBAction)switchAlarm:(id)sender
@@ -55,6 +67,7 @@
     [dateFormatter autorelease];
     [dateFormatter setDateFormat:@"HH:mm"];
     time = [dateFormatter dateFromString:self.time.text];
+    // REVIEW Почему нет autorelease/release?
     
     NSManagedObjectContext* managedObjectContext = [self managedObjectContext];
     NSFetchRequest * fetchReques = [[NSFetchRequest alloc]initWithEntityName:@"DataAlarm"];
@@ -89,6 +102,7 @@
     if(![managedObjectContext save:&error])
     {
         NSLog(@"No save %@  %@", error, [error localizedDescription]);
+        // REVIEW Необходимо сообщать с помощью AlertView.
     }
     else
     {

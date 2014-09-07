@@ -25,6 +25,7 @@
     CreateAlarmViewController *child = [[CreateAlarmViewController alloc] init];
     child.delegate1 = t;
     [child autorelease];
+    // REVIEW Можно ли поместить autorelease строкой выше? Почему?
     t.child = child;
     UINavigationController *nt = [[UINavigationController alloc] initWithRootViewController:t];
     self.window.rootViewController = nt;
